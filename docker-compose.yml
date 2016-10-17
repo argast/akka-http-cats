@@ -1,0 +1,4 @@
+web:
+  image: cats-reader-service:$VERSION
+  ports:
+    - "8090:8090"
