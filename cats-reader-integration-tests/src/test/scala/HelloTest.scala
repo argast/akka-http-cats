@@ -6,7 +6,7 @@ class HelloTest extends FunSpec {
 
   describe("Hello service") {
     it("should return hello") {
-      RestAssured.get("http://192.168.99.100:8090/hello").then().body(equalTo("Hello world!"))
+      RestAssured.get(s"http://${TestConfig.hostname}:8090/hello").then().body(equalTo("Hello world!"))
     }
   }
 }
