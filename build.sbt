@@ -10,8 +10,6 @@ import sbt.Keys._
 import scala.concurrent.duration._
 import org.scalatest.concurrent.PatienceConfiguration._
 
-import scala.sys.process.ProcessBuilder
-
 lazy val `cats-reader` = (project in file("."))
   .aggregate(`cats-reader-service`, `cats-reader-integration-tests`, `cats-reader-performance-tests`)
   .settings(commonSettings: _*)
@@ -24,6 +22,8 @@ lazy val `cats-reader-service` = (project in file("cats-reader-service"))
   .settings(packagingSettings: _*)
   .settings(commonSettings: _*)
   .settings(serviceDependencies: _*)
+
+def dockerHost = Option(System.getenv("DOCKER_HOST")).map(uri => new java.net.URI(uri).getHost).getOrElse("localhost")
 
 lazy val `cats-reader-integration-tests` = (project in file("cats-reader-integration-tests"))
   .dependsOn(`cats-reader-service`)
