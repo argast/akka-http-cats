@@ -37,7 +37,7 @@ lazy val `cats-reader-integration-tests` = (project in file("cats-reader-integra
         val currentVersion = (version in `cats-reader-service`).value
         Process(Seq("docker-compose", "up", "-d"), None, "VERSION" -> currentVersion).!
         Eventually.eventually(PatienceConfiguration.Timeout(10 seconds), PatienceConfiguration.Interval(1 second)) {
-          new Socket().connect(new InetSocketAddress("192.168.99.100", 8090), 250)
+          new Socket().connect(new InetSocketAddress(dockerHost, 8090), 250)
         }
       }),
 
