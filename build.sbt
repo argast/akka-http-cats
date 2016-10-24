@@ -4,20 +4,20 @@ import CommonSettings._
 import Dependencies._
 import Packaging._
 import Testing._
+import DockerCompose._
 import org.scalatest.concurrent.{Eventually, PatienceConfiguration}
 import sbt.Keys._
 
 import scala.concurrent.duration._
 import org.scalatest.concurrent.PatienceConfiguration._
 
-lazy val `cats-reader` = (project in file("."))
-  .aggregate(`cats-reader-service`, `cats-reader-integration-tests`, `cats-reader-performance-tests`)
+lazy val `akka-http-cats` = (project in file("."))
+  .aggregate(`akka-http-cats-service`, `akka-http-cats-integration-tests`, `akka-http-cats-performance-tests`)
   .settings(commonSettings: _*)
   .settings(e2eSettings: _*)
-  .enablePlugins(DockerComposePlugin)
-  .dependsOn(`cats-reader-service`, `cats-reader-integration-tests`)
+  .dependsOn(`akka-http-cats-service`, `akka-http-cats-integration-tests`)
 
-lazy val `cats-reader-service` = (project in file("cats-reader-service"))
+lazy val `akka-http-cats-service` = (project in file("akka-http-cats-service"))
   .enablePlugins(JavaServerAppPackaging, DockerPlugin)
   .settings(packagingSettings: _*)
   .settings(commonSettings: _*)
@@ -25,31 +25,25 @@ lazy val `cats-reader-service` = (project in file("cats-reader-service"))
 
 def dockerHost = Option(System.getenv("DOCKER_HOST")).map(uri => new java.net.URI(uri).getHost).getOrElse("localhost")
 
-lazy val `cats-reader-integration-tests` = (project in file("cats-reader-integration-tests"))
-  .dependsOn(`cats-reader-service`)
+lazy val `akka-http-cats-integration-tests` = (project in file("akka-http-cats-integration-tests"))
+  .dependsOn(`akka-http-cats-service`)
   .settings(commonSettings: _*)
   .settings(integrationTestsDependencies: _*)
+  .settings(dockerComposeSettings: _*)
   .settings(
     testOptions in Test := Seq(
       Tests.Setup( () => {
-        (publishLocal in Docker in `cats-reader-service`).value
-        println("Starting docker-compose")
-        val currentVersion = (version in `cats-reader-service`).value
-        Process(Seq("docker-compose", "up", "-d"), None, "VERSION" -> currentVersion).!
-        Eventually.eventually(PatienceConfiguration.Timeout(10 seconds), PatienceConfiguration.Interval(1 second)) {
-          new Socket().connect(new InetSocketAddress(dockerHost, 8090), 250)
-        }
+        Def.sequential(publishLocal in Docker in `akka-http-cats-service`, dockerComposeUp).value
       }),
 
       Tests.Cleanup(() => {
-        println("Stopping docker-compose")
-        val currentVersion = (version in `cats-reader-service`).value
-        Process(Seq("docker-compose", "down"), None, "VERSION" -> currentVersion).!
+        dockerComposeDown.value
       })
     )
   )
 
-lazy val `cats-reader-performance-tests` = (project in file("cats-reader-performance-tests"))
-  .dependsOn(`cats-reader-service`)
+lazy val `akka-http-cats-performance-tests` = (project in file("akka-http-cats-performance-tests"))
+  .dependsOn(`akka-http-cats-service`)
   .settings(commonSettings: _*)
   .settings(performanceTestsDependencies: _*)
+

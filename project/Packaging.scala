@@ -1,5 +1,3 @@
-import com.tapad.docker.DockerComposePlugin.autoImport._
-import com.typesafe.sbt.SbtNativePackager._
 import sbt.Keys._
 import sbt._
 
