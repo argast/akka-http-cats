@@ -3,7 +3,7 @@ import sbt._
 
 object Dependencies {
 
-  val akkaVersion = "2.4.10"
+  val akkaVersion = "2.4.11"
   val catsVersion = "0.7.2"
 
   val commonDependencies = Seq(
@@ -16,17 +16,15 @@ object Dependencies {
   val serviceDependencies = deps(
     commonDependencies ++ Seq(
       "com.typesafe.akka" %% "akka-actor" % akkaVersion,
-      "io.circe" %% "circe-core" % "0.5.0-M3",
-      "io.circe" %% "circe-generic" % "0.5.0-M3",
-      "io.circe" %% "circe-parser" % "0.5.0-M3",
+      "io.circe" %% "circe-core" % "0.5.2",
+      "io.circe" %% "circe-generic" % "0.5.2",
+      "io.circe" %% "circe-parser" % "0.5.2",
       "com.typesafe.akka" %% "akka-http-experimental" % akkaVersion,
       "com.typesafe.akka" %% "akka-http-testkit" % akkaVersion % "test"
     ))
 
   val integrationTestsDependencies = deps(
-    commonDependencies ++ Seq(
-      "com.jayway.restassured" % "rest-assured" % "2.8.0"
-    ))
+    commonDependencies)
 
   val performanceTestsDependencies = deps(
     commonDependencies ++ Seq(

@@ -1,10 +1,10 @@
 import sbt.Keys._
 import sbt._
+import com.typesafe.sbt.packager.docker.DockerPlugin.autoImport._
 
 object Packaging {
 
   val packagingSettings = Seq(
-    mainClass in Compile := Some("pfws.Main")
-
+    dockerBaseImage := "anapsix/alpine-java:8"
   )
 }
