@@ -28,7 +28,8 @@ object Dependencies {
 
   val performanceTestsDependencies = deps(
     commonDependencies ++ Seq(
-      "io.gatling.highcharts" % "gatling-charts-highcharts" % "2.1.7"
+      "io.gatling.highcharts" % "gatling-charts-highcharts" % "2.2.2" % "test",
+      "io.gatling"            % "gatling-test-framework"    % "2.2.2" % "test"
     ))
 
   private def deps(modules: Seq[ModuleID]): Seq[Setting[_]] = Seq(libraryDependencies ++= modules)

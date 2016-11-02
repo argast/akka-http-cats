@@ -21,21 +21,30 @@ lazy val `akka-http-cats-integration-tests` = (project in file("akka-http-cats-i
   .settings(integrationTestsDependencies: _*)
   .settings(
     testOptions in Test := Seq(
-
       Tests.Setup(() => {
         (publishLocal in Docker in `akka-http-cats-service`).value
-        DockerCompose.up(version.value)
+        DockerCompose.up(streams.value.log, version.value)
       }),
-
       Tests.Cleanup(() => {
-        streams.value.log.info("Stopping docker-compose")
-        DockerCompose.down(version.value)
+        DockerCompose.down(streams.value.log, version.value)
       })
     )
   )
 
 lazy val `akka-http-cats-performance-tests` = (project in file("akka-http-cats-performance-tests"))
+  .enablePlugins(GatlingPlugin)
   .dependsOn(`akka-http-cats-service`)
   .settings(commonSettings: _*)
   .settings(performanceTestsDependencies: _*)
+  .settings(
+    testOptions in Gatling := Seq(
+      Tests.Setup(() => {
+        (publishLocal in Docker in `akka-http-cats-service`).value
+        DockerCompose.up(streams.value.log, version.value)
+      }),
+      Tests.Cleanup(() => {
+        DockerCompose.down(streams.value.log, version.value)
+      })
+    )
+  )
 

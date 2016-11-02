@@ -1,7 +1,6 @@
 import java.net.{URI => _, _}
 
 import org.scalatest.concurrent.{Eventually, PatienceConfiguration}
-import sbt.Keys._
 import sbt._
 
 import scala.collection.convert.DecorateAsScala
@@ -20,17 +19,18 @@ object DockerCompose extends DecorateAsScala {
     Option(System.getenv("DOCKER_HOST")).map(h => new URI(h).getHost) // docker-machine setup
       .getOrElse(getLocalIpAddress) // docker for mac setup
 
-  def up(version: String) = {
-    Process(Seq("docker-compose", "up", "-d"), None, "VERSION" -> version).!
+  def up(log: Logger, version: String) = {
+    Process(Seq("docker-compose", "up", "-d"), None, "VERSION" -> version).!!(log)
     Eventually.eventually(PatienceConfiguration.Timeout(10 seconds), PatienceConfiguration.Interval(1 second)) {
-      println(s"Waiting for service to be ready on $dockerMachineIp:8090.")
+      log.info(s"Waiting for service to be ready on $dockerMachineIp:8090.")
       val c = new URL(s"http://$dockerMachineIp:8090/hello").openConnection().asInstanceOf[HttpURLConnection]
       assert(c.getResponseCode == 200)
     }
-    println(s"Service ready.")
+    log.info(s"Service ready.")
   }
 
-  def down(version: String) = {
-    Process(Seq("docker-compose", "down"), None, "VERSION" -> version).!
+  def down(log: Logger, version: String) = {
+    log.info("Stopping docker-compose")
+    Process(Seq("docker-compose", "down"), None, "VERSION" -> version).!!(log)
   }
 }
