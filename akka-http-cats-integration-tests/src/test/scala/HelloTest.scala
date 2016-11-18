@@ -20,13 +20,12 @@ class HelloTest extends WordSpec with ScalaFutures with Matchers {
 
   "Hello service" should {
     "return hello" in {
-      val response = for {
-        response <- Http().singleRequest(Get(s"http://${TestConfig.hostname}:8090/hello"))
-        entity <- response.entity.toStrict(5 seconds)
-      } yield (response, entity)
-      whenReady(response) { case (r, e) =>
+      val response = Http().singleRequest(Get(s"http://${TestConfig.hostname}:8090/hello"))
+      whenReady(response) { r =>
         r.status shouldEqual StatusCodes.OK
-        e.data.utf8String shouldEqual "Hello world!"
+        whenReady(r.entity.toStrict(1 second)) { e =>
+          e.data.utf8String shouldEqual "Hello world!"
+        }
       }
     }
   }

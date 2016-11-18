@@ -34,5 +34,4 @@ object Main extends App {
   def startServer = {
     Http().bindAndHandle(routes, "0.0.0.0", port)
   }
-
 }

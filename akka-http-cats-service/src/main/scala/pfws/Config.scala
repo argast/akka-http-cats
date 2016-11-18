@@ -9,7 +9,7 @@ trait Config {
   val port = 8090
 
   implicit val actorSystem = ActorSystem("hello-reader")
-  implicit val actorMaterialiser = ActorMaterializer()
+  implicit val actorMaterializer = ActorMaterializer()
 
   val database = Map[String, String]("separator" -> ", ")
 
