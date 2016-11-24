@@ -13,13 +13,11 @@ import scala.language.postfixOps
 
 object Main extends App {
 
-
   implicit val config = new Config {
+    implicit val ec = ExecutionContext.Implicits.global
   }
 
   import config._
-
-  implicit val ec = ExecutionContext.Implicits.global
 
   val routes = HelloRoutes.routes
 
@@ -29,7 +27,12 @@ object Main extends App {
     Await.ready(stopServer(server), 5 seconds)
   }
 
-  def stopServer(server: ServerBinding)(implicit s: ActorSystem) = server.unbind() >>= { _ => s.terminate() }
+  def stopServer(server: ServerBinding)(implicit s: ActorSystem) = {
+    for {
+      _ <- server.unbind()
+      _ <- s.terminate()
+    } yield ()
+  }
 
   def startServer = {
     Http().bindAndHandle(routes, "0.0.0.0", port)

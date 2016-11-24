@@ -14,7 +14,7 @@ object GreetingService {
   def getGreeting: ReaderResult[String] = ReaderT { config =>
 //    val p = config.pipeline ~> unmarshal[String]
 //    p(Get(config.greetingUrl + "/greeting"))
-    "".right[String]
+    Right("")
   }
 
 }

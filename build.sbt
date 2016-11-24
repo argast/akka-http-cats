@@ -33,8 +33,11 @@ lazy val `akka-http-cats-integration-tests` = (project in file("akka-http-cats-i
 
 lazy val `akka-http-cats-performance-tests` = (project in file("akka-http-cats-performance-tests"))
   .enablePlugins(GatlingPlugin)
-  .dependsOn(`akka-http-cats-service`)
   .settings(commonSettings: _*)
+    .settings(
+      // until gatling supports scala 2.12
+      scalaVersion := "2.11.8"
+    )
   .settings(performanceTestsDependencies: _*)
   .settings(
     testOptions in Gatling := Seq(

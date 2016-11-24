@@ -5,6 +5,7 @@ import sbt._
 
 import scala.collection.convert.DecorateAsScala
 import scala.concurrent.duration._
+import scala.sys.process.ProcessLogger
 
 object DockerCompose extends DecorateAsScala {
 
@@ -20,7 +21,7 @@ object DockerCompose extends DecorateAsScala {
       .getOrElse(getLocalIpAddress) // docker for mac setup
 
   def up(log: Logger, version: String) = {
-    Process(Seq("docker-compose", "up", "-d"), None, "VERSION" -> version).!!(log)
+    Process(Seq("docker-compose", "up", "-d"), None, "VERSION" -> version).!!
     Eventually.eventually(PatienceConfiguration.Timeout(10 seconds), PatienceConfiguration.Interval(1 second)) {
       log.info(s"Waiting for service to be ready on $dockerMachineIp:8090.")
       val c = new URL(s"http://$dockerMachineIp:8090/hello").openConnection().asInstanceOf[HttpURLConnection]
@@ -31,6 +32,6 @@ object DockerCompose extends DecorateAsScala {
 
   def down(log: Logger, version: String) = {
     log.info("Stopping docker-compose")
-    Process(Seq("docker-compose", "down"), None, "VERSION" -> version).!!(log)
+    Process(Seq("docker-compose", "down"), None, "VERSION" -> version).!!
   }
 }
