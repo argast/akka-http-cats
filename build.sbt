@@ -6,7 +6,9 @@ import sbt.Tests
 
 lazy val `akka-http-cats` = (project in file("."))
   .aggregate(`akka-http-cats-service`, `akka-http-cats-integration-tests`, `akka-http-cats-performance-tests`)
+  .enablePlugins(BuildInfoPlugin, GitVersioning)
   .settings(commonSettings: _*)
+  .settings(Versioning.settings: _*)
   .dependsOn(`akka-http-cats-service`, `akka-http-cats-integration-tests`)
 
 lazy val `akka-http-cats-service` = (project in file("akka-http-cats-service"))
