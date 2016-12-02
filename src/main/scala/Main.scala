@@ -1,14 +1,12 @@
-package pfws
-
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.Http.ServerBinding
+import akka.http.scaladsl.server.Directives._
+import pfws.{Config, HelloRoutes}
+import routes.Info
 
 import scala.concurrent.duration._
 import scala.concurrent.{Await, ExecutionContext}
-import cats.instances.all._
-import cats.syntax.all._
-
 import scala.language.postfixOps
 
 object Main extends App {
@@ -19,7 +17,7 @@ object Main extends App {
 
   import config._
 
-  val routes = HelloRoutes.routes
+  val routes = HelloRoutes.routes ~ Info.info
 
   val server = Await.result(startServer, 5 seconds)
 

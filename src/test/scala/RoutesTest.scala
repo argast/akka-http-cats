@@ -6,7 +6,7 @@ import pfws._
 
 class RoutesTest extends FunSpec with ScalatestRouteTest with Matchers {
 
-  implicit val config = new TestConfig {
+  implicit val config = new UnitTestConfig {
     override val greetingUrl: String = ""
   }
 

@@ -8,14 +8,13 @@ import scala.language.postfixOps
 
 class HelloSimulation extends Simulation {
 
-  val httpConf = http.baseURL(s"http://${TestConfig.hostname}:8090")
+  val httpConf = http.baseURL(s"http://${GatlingTestConfig.hostname}:8090")
 
   val scn = scenario("Hello Simulation").during(10 seconds) {
     exec(
       http("hello").get("/hello")
     )
   }
-
 
   setUp(scn.inject(atOnceUsers(10))).protocols(httpConf)
 }

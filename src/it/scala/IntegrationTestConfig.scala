@@ -1,6 +1,6 @@
 import com.typesafe.config.ConfigFactory
 
-object TestConfig {
+object IntegrationTestConfig {
 
   private val config = ConfigFactory.load(System.getProperty("test.against", "local") + ".conf")
 

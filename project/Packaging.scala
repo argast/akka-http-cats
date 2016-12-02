@@ -4,7 +4,7 @@ import com.typesafe.sbt.packager.docker.DockerPlugin.autoImport._
 
 object Packaging {
 
-  val packagingSettings = Seq(
+  val settings = Seq(
     dockerBaseImage := "anapsix/alpine-java:8",
     dockerRepository := Some("argast")
   )

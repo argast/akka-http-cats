@@ -31,7 +31,7 @@ object DockerCompose extends DecorateAsScala {
   }
 
   def down(log: Logger, version: String) = {
-    log.info("Stopping docker-compose")
     Process(Seq("docker-compose", "down"), None, "VERSION" -> version).!!
+    ()
   }
 }
