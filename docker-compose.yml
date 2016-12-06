@@ -1,4 +1,4 @@
 web:
-  image: argast/akka-http-cats-service:$VERSION
+  image: argast/akka-http-cats:$VERSION
   ports:
     - "8090:8090"

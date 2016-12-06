@@ -1,7 +1,6 @@
-package pfws
+package hello
 
 import akka.actor.ActorSystem
-import akka.http.scaladsl.Http
 import akka.stream.ActorMaterializer
 
 trait Config {
@@ -10,10 +9,5 @@ trait Config {
 
   implicit val actorSystem = ActorSystem("hello-reader")
   implicit val actorMaterializer = ActorMaterializer()
-
-  val database = Map[String, String]("separator" -> ", ")
-
-  lazy val pipeline = Http()
-
-  val greetingUrl = "http://localhost:9090"
+  implicit val ec = actorSystem.dispatcher
 }

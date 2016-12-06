@@ -1,3 +1,5 @@
+package hello
+
 import com.typesafe.config.ConfigFactory
 
 object GatlingTestConfig {

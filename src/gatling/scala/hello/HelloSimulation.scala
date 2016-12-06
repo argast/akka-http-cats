@@ -1,3 +1,5 @@
+package hello
+
 
 import io.gatling.core.Predef._
 import io.gatling.core.scenario.Simulation

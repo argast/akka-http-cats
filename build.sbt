@@ -1,7 +1,7 @@
 import CommonSettings._
 import sbt.IntegrationTest
 
-lazy val root = (project in file("."))
+lazy val `akka-http-cats` = (project in file("."))
   .enablePlugins(GitVersioning, BuildInfoPlugin, JavaServerAppPackaging, DockerPlugin, GatlingPlugin)
   .configs(IntegrationTest)
   .settings(Gatling.settings: _*)

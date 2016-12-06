@@ -1,3 +1,5 @@
+package hello
+
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.client.RequestBuilding._
@@ -10,7 +12,7 @@ import org.scalatest.{Matchers, WordSpec}
 import scala.concurrent.duration._
 import scala.language.postfixOps
 
-class InfoTest extends WordSpec with ScalaFutures with Matchers {
+class HelloTest extends WordSpec with ScalaFutures with Matchers {
 
   implicit val as = ActorSystem()
   implicit val mat = ActorMaterializer()
@@ -18,11 +20,14 @@ class InfoTest extends WordSpec with ScalaFutures with Matchers {
 
   override implicit val patienceConfig = PatienceConfig(scaled(Span(5, Seconds)), scaled(Span(1, Second)))
 
-  "Info page" should {
-    "return successfully" in {
-      val response = Http().singleRequest(Get(s"http://${IntegrationTestConfig.hostname}:8090"))
+  "Hello service" should {
+    "return hello" in {
+      val response = Http().singleRequest(Get(s"http://${IntegrationTestConfig.hostname}:8090/hello"))
       whenReady(response) { r =>
         r.status shouldEqual StatusCodes.OK
+        whenReady(r.entity.toStrict(1 second)) { e =>
+          e.data.utf8String shouldEqual "Hello world!"
+        }
       }
     }
   }

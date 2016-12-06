@@ -13,6 +13,7 @@ object Dependencies {
       "io.gatling"            % "gatling-test-framework"    % "2.2.3" % "test",
       "ch.qos.logback" % "logback-classic" % "1.1.7",
       "org.slf4j" % "slf4j-api" % "1.7.21",
+      "com.typesafe.scala-logging" %% "scala-logging" % "3.5.0",
       "org.typelevel" %% "cats" % catsVersion,
       "com.typesafe.akka" %% "akka-actor" % akkaVersion,
       "io.circe" %% "circe-core" % "0.6.1",

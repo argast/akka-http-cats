@@ -1,7 +1,7 @@
+package hello
 
 import akka.http.scaladsl.marshalling.{Marshaller, ToResponseMarshaller}
 import cats.data._
-import cats.instances.all._
 import cats.syntax.all._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -9,7 +9,7 @@ import scala.concurrent.Future
 import scala.language.{higherKinds, implicitConversions}
 
 
-package object pfws {
+package object routes {
 
   type Result[T] = EitherT[Future, String, T]
   type ReaderResult[T] = ReaderT[Result, Config, T]

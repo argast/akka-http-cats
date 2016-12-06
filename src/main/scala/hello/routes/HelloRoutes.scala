@@ -1,17 +1,15 @@
-package pfws
+package hello.routes
 
-import akka.http.scaladsl.marshalling.{Marshaller, ToResponseMarshaller}
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
-import cats.data._
-import cats.instances.all._
-import cats.syntax.all._
+import com.typesafe.scalalogging.StrictLogging
+import hello.Config
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.language.implicitConversions
 
 
-object HelloRoutes {
+object HelloRoutes extends StrictLogging {
 
   def hello: ReaderResult[String] = "Hello"
 
@@ -22,11 +20,10 @@ object HelloRoutes {
       }
     } ~ path("hello") {
       complete {
-        "Hello world!"
-        //        for {
-//          greeting <- GreetingService.getGreeting
-//          separator <- Database.get("separator")
-//        } yield greeting + separator + "world!"
+        Future {
+          logger.info("Hello")
+          "Hello world!"
+        }
       }
     }
   }
