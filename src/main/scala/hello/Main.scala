@@ -43,6 +43,6 @@ object Main extends App {
 
 
   def captureRequestId = optionalHeaderValueByName("X-RequestId").map { requestId =>
-    MDC.put("requestId", requestId.getOrElse(UUID.randomUUID().toString))
+    MDC.put("requestId", requestId.getOrElse(UUID.randomUUID().getMostSignificantBits.toHexString))
   }
 }
