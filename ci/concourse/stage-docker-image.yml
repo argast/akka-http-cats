@@ -1,0 +1,22 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: argast/buildimage
+
+inputs:
+  - name: source
+
+outputs:
+  - name: target
+
+run:
+  dir: source
+  path: sh
+  args:
+  - -exc
+  - |
+    sbt docker:stage
+    cp -r target ../
