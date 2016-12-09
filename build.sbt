@@ -11,4 +11,3 @@ lazy val `akka-http-cats` = (project in file("."))
   .settings(BuildInfo.settings: _*)
   .settings(Testing.settings: _*)
   .settings(Dependencies.settings: _*)
-

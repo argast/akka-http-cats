@@ -3,7 +3,7 @@ package hello
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
 
-trait Config {
+class Config {
 
   val port = 8090
 

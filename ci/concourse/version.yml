@@ -1,0 +1,21 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: argast/buildimage
+
+inputs:
+  - name: source
+
+outputs:
+  - name: version
+
+run:
+  dir: source
+  path: sh
+  args:
+  - -exc
+  - |
+    sbt version | tail -1  | cut -d ' ' -f 2 > ../version/version
