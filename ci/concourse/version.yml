@@ -19,3 +19,4 @@ run:
   - -exc
   - |
     sbt version | tail -1  | cut -d ' ' -f 2 > ../version/version
+    cat ../version/version
