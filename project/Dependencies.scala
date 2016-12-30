@@ -9,8 +9,8 @@ object Dependencies {
 
   val settings = deps(
     Seq(
-      "io.gatling.highcharts" % "gatling-charts-highcharts" % "2.2.3" % "test",
-      "io.gatling"            % "gatling-test-framework"    % "2.2.3" % "test",
+      "io.gatling.highcharts" % "gatling-charts-highcharts" % "3.0.0-SNAPSHOT" % "test",
+      "io.gatling" % "gatling-test-framework" % "3.0.0-SNAPSHOT" % "test",
       "ch.qos.logback" % "logback-classic" % "1.1.7",
       "org.slf4j" % "slf4j-api" % "1.7.21",
       "com.typesafe.scala-logging" %% "scala-logging" % "3.5.0",
@@ -19,6 +19,7 @@ object Dependencies {
       "io.circe" %% "circe-core" % "0.6.1",
       "io.circe" %% "circe-generic" % "0.6.1",
       "io.circe" %% "circe-parser" % "0.6.1",
+      "com.timeout" %% "akka-http-healthchecks" % "1.2.0",
       "de.heikoseeberger" %% "akka-http-circe" % "1.11.0",
       "com.typesafe.akka" %% "akka-http" % akkaHttpVersion,
       "com.typesafe.akka" %% "akka-http-testkit" % akkaHttpVersion % "test",

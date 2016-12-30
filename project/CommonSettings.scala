@@ -4,8 +4,11 @@ import sbt.Resolver
 object CommonSettings {
 
   val commonSettings = Seq(
-    scalaVersion := "2.11.8",
+    scalaVersion := "2.12.1",
     name := "akka-http-cats",
-    resolvers += Resolver.bintrayRepo("timeoutdigital","releases")
+    resolvers ++= Seq(
+      Resolver.bintrayRepo("argast","maven"),
+      Resolver.sonatypeRepo("snapshots")
+    )
   )
 }

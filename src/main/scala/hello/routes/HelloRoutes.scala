@@ -8,11 +8,13 @@ import hello.Config
 import scala.concurrent.Future
 import scala.language.implicitConversions
 import hello.result._
+import cats.instances.future._
+import hello.result.implicits._
 
 
 object HelloRoutes extends StrictLogging {
 
-  def hello: ReaderResult[String] = "Hello"
+  def hello: Result[String] = "Hello".liftR
 
   def routes(implicit config: Config): Route = {
     path("greeting") {
@@ -27,6 +29,13 @@ object HelloRoutes extends StrictLogging {
           logger.info("Hello")
           "Hello world!"
         }
+      }
+    } ~ path("hello" / Segment) { language =>
+      complete {
+        import config._
+        for {
+          translation <- translations.translate(language)
+        } yield translation.map(_ + "!!!")
       }
     }
   }

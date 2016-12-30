@@ -11,10 +11,10 @@ import result._
 
 package object routes {
 
-  implicit def resultMarshaller[T](implicit mf: ToResponseMarshaller[Future[Either[String, T]]], m: ToResponseMarshaller[Either[String, T]]): ToResponseMarshaller[Result[T]] =
+  implicit def resultMarshaller[T](implicit mf: ToResponseMarshaller[Future[Either[String, T]]], m: ToResponseMarshaller[Either[String, T]]): ToResponseMarshaller[FutureEither[T]] =
     Marshaller.combined(_.value)
 
-  implicit def readerMarshaller[T](implicit mf: ToResponseMarshaller[Result[T]], m: ToResponseMarshaller[Either[String, T]], c: Config): ToResponseMarshaller[ReaderResult[T]] =
+  implicit def readerMarshaller[T](implicit mf: ToResponseMarshaller[FutureEither[T]], m: ToResponseMarshaller[Either[String, T]], c: Config): ToResponseMarshaller[Result[T]] =
     Marshaller.combined(_(c))
 
 }

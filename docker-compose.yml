@@ -2,3 +2,8 @@ web:
   image: argast/akka-http-cats:$VERSION
   ports:
     - "8090:8090"
+
+redis:
+  image: redis:alpine
+  ports:
+    - "6379:6379"
